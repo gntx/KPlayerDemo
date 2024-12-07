@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.example.kplayerdemo.ui.song_list
 
 import androidx.compose.foundation.layout.Box
@@ -15,10 +13,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -29,12 +30,13 @@ import androidx.navigation.NavController
 import com.example.kplayerdemo.ui.song_list.component.SongListItem
 import com.example.kplayerdemo.util.Constants
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SongListScreen(
     navController: NavController,
     viewModel: SongListViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.value
+    val state by viewModel.state.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
@@ -54,11 +56,24 @@ fun SongListScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
+                OutlinedTextField(
+                    value = viewModel.queryString,
+                    onValueChange = { username -> viewModel.updateQueryString(username) },
+                    label = { Text("Search by Song and Album") },
+                    modifier = Modifier.padding(horizontal = 20.dp)
+                )
+                Text(
+                    text = viewModel.queryString,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                )
                 LazyColumn(
                     modifier = Modifier.fillMaxSize().weight(1f, false),
                     contentPadding = PaddingValues(20.dp)
                 ) {
-                    items(state.songs) { song ->
+                    items(state.displaySongs) { song ->
                         SongListItem(song)
                     }
                 }
