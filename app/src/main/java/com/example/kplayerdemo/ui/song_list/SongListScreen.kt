@@ -3,17 +3,23 @@ package com.example.kplayerdemo.ui.song_list
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -29,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.kplayerdemo.ui.song_list.component.SongListItem
 import com.example.kplayerdemo.util.Constants
+import com.example.kplayerdemo.util.SortingType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +51,7 @@ fun SongListScreen(
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            LargeTopAppBar(
+            MediumTopAppBar(
                 title = {
                     Text(Constants.DEFAULT_ARTIST_NAME)
                 },
@@ -57,17 +64,14 @@ fun SongListScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 OutlinedTextField(
-                    value = viewModel.queryString,
+                    value = state.queryString,
                     onValueChange = { username -> viewModel.updateQueryString(username) },
                     label = { Text("Search by Song and Album") },
-                    modifier = Modifier.padding(horizontal = 20.dp)
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
                 )
-                Text(
-                    text = viewModel.queryString,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
+                SortByRadioButton(
+                    selectedOption = state.selectedSortingType.displayText,
+                    viewModel = viewModel
                 )
                 LazyColumn(
                     modifier = Modifier.fillMaxSize().weight(1f, false),
@@ -93,6 +97,46 @@ fun SongListScreen(
 
             if (state.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+        }
+    }
+}
+
+@Composable
+fun SortByRadioButton(selectedOption: String,
+                      viewModel: SongListViewModel) {
+    val radioOptions = listOf(SortingType.BY_SONG, SortingType.BY_ALBUM)
+    Row(Modifier.selectableGroup()) {
+        Text(
+            text = "Sort by",
+            style = MaterialTheme.typography.bodyMedium.merge(),
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(start = 30.dp)
+        )
+        radioOptions.forEach { option ->
+            Row(
+                Modifier
+                    .width(130.dp)
+                    .selectable(
+                        selected = (option.displayText == selectedOption),
+                        onClick = {
+                            viewModel.updateSortingType(option)
+                        }
+                    )
+            ) {
+                RadioButton(
+                    selected = (option.displayText == selectedOption),
+                    onClick = {
+                        viewModel.updateSortingType(option)
+                    }
+                )
+                Text(
+                    text = option.displayText,
+                    style = MaterialTheme.typography.bodyMedium.merge(),
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                )
             }
         }
     }
