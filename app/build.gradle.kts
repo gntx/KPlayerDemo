@@ -79,8 +79,11 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     // Coil
-    implementation("io.coil-kt.coil3:coil-compose:3.0.4")
-    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.4")
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+    // Required -- JUnit 4 framework
+    testImplementation("junit:junit:4.13.2")
 }
 
 // Allow references to generated code

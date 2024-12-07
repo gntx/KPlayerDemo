@@ -17,7 +17,7 @@ class SearchSongsUseCase @Inject constructor(
     operator fun invoke(artistName: String): Flow<Resource<List<Song>>> = flow {
         try {
             emit(Resource.Loading())
-            val songs = repository.searchSongsByArtistName(artistName).results.map { it.toSong()}
+            val songs = repository.searchSongsByArtistName(artistName)
             emit(Resource.Success(songs))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
