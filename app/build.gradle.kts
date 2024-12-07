@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.androidx.room)
 }
 
 android {
@@ -49,6 +50,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 }
 
 dependencies {
@@ -83,7 +87,13 @@ dependencies {
     implementation(libs.coil.network.okhttp)
 
     // Required -- JUnit 4 framework
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    kapt("androidx.room:room-compiler:2.6.1")
+    // Kotlin Extensions and Coroutines support for Room
+    implementation(libs.androidx.room.ktx)
 }
 
 // Allow references to generated code

@@ -26,6 +26,18 @@ class FakeSongRepository : SongRepository {
         return songs
     }
 
+    override suspend fun upsertSongs(songs: List<Song>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAllSongs(): List<Song> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteAllSongs() {
+        TODO("Not yet implemented")
+    }
+
     fun getFakeSongs(): List<Song> {
         return songs
     }

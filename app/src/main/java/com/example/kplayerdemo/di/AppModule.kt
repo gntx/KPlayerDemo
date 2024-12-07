@@ -1,5 +1,8 @@
 package com.example.kplayerdemo.di
 
+import android.app.Application
+import androidx.room.Room
+import com.example.kplayerdemo.data.local.SongDatabase
 import com.example.kplayerdemo.data.remote.SearchAPI
 import com.example.kplayerdemo.data.repository.SongRepositoryImpl
 import com.example.kplayerdemo.domain.repository.SongRepository
@@ -27,7 +30,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSongRepository(api: SearchAPI): SongRepository {
-        return SongRepositoryImpl(api)
+    fun provideSongDatabase(app: Application): SongDatabase {
+        return Room.databaseBuilder(
+            app,
+            SongDatabase::class.java,
+            SongDatabase.DATABASE_NAME
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSongRepository(api: SearchAPI, db: SongDatabase): SongRepository {
+        return SongRepositoryImpl(api, db)
     }
 }
