@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kplayerdemo.domain.use_case.SearchSongsUseCase
+import com.example.kplayerdemo.util.Constants
 import com.example.kplayerdemo.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -24,7 +25,7 @@ class SongListViewModel @Inject constructor(
     }
 
     private fun getSongs() {
-        searchSongsUseCase(artistName = "Taylor Swift").onEach { result ->
+        searchSongsUseCase(artistName = Constants.DEFAULT_ARTIST_NAME).onEach { result ->
             when(result) {
                 is Resource.Success -> {
                     _state.value = SongListState(songs = result.data ?: emptyList())
