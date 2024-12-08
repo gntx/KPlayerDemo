@@ -100,7 +100,9 @@ fun SongListScreen(
                 //Spacer(modifier = Modifier.height(10.dp))
             }
 
-            if (state.displaySongs.isEmpty()) {
+            if (state.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else if (state.displaySongs.isEmpty()) {
                 Text(
                     text = "No data",
                     textAlign = TextAlign.Center,
@@ -109,10 +111,6 @@ fun SongListScreen(
                         .padding(horizontal = 20.dp)
                         .align(Alignment.Center)
                 )
-            }
-
-            if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         }
     }
