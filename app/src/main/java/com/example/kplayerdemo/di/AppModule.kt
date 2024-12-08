@@ -6,6 +6,8 @@ import com.example.kplayerdemo.data.local.SongDatabase
 import com.example.kplayerdemo.data.remote.SearchAPI
 import com.example.kplayerdemo.data.repository.SongRepositoryImpl
 import com.example.kplayerdemo.domain.repository.SongRepository
+import com.example.kplayerdemo.util.ConnectivityObserver
+import com.example.kplayerdemo.util.ConnectivityObserverImpl
 import com.example.kplayerdemo.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -42,5 +44,11 @@ object AppModule {
     @Singleton
     fun provideSongRepository(api: SearchAPI, db: SongDatabase): SongRepository {
         return SongRepositoryImpl(api, db)
+    }
+
+    @Provides
+    @Singleton
+    fun provideConnectivityObserver(app: Application): ConnectivityObserver {
+        return ConnectivityObserverImpl(app)
     }
 }

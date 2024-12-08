@@ -1,5 +1,7 @@
 package com.example.kplayerdemo.ui.song_list
 
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,6 +51,7 @@ fun SongListScreen(
     viewModel: SongListViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val isConnected by viewModel.isConnected.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     var title = "Results for \" ${Constants.DEFAULT_ARTIST_NAME} \""
     if (state.isLoading) {
@@ -81,7 +85,7 @@ fun SongListScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                if (state.error.isNotBlank()) {
+                if (!isConnected) {
                     Text(
                         text = "You're offline. Results may be limited.",
                         textAlign = TextAlign.Center,
@@ -126,6 +130,9 @@ fun SongListScreen(
                         .align(Alignment.Center)
                 )
             }
+
+            if (state.error.isNotBlank())
+                Toast.makeText(LocalContext.current, state.error, LENGTH_SHORT).show()
         }
     }
 }
