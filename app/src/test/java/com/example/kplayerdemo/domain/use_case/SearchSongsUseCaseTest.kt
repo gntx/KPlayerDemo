@@ -1,6 +1,7 @@
 package com.example.kplayerdemo.domain.use_case
 
 import com.example.kplayerdemo.data.repository.FakeSongRepository
+import com.example.kplayerdemo.util.DummySongUtil
 import com.example.kplayerdemo.util.Resource
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
@@ -19,12 +20,13 @@ class SearchSongsUseCaseTest {
     }
 
     @Test
-    fun `Search songs, get isLoading firstly, then fake data successfully`() = runBlocking {
+    fun `Search songs, get isLoading firstly, then dummy data successfully`() = runBlocking {
         val outputFlow = searchSongsUseCase("dummy")
         val firstState = outputFlow.first()
         assert(firstState is Resource.Loading)
         val secondState = outputFlow.drop(1).first()
         assert(secondState is Resource.Success)
-        assert(secondState.data == fakeSongRepository.getFakeSongs())
+        assert(secondState.data == DummySongUtil.prepareDummyData())
     }
+
 }

@@ -2,22 +2,15 @@ package com.example.kplayerdemo.data.repository
 
 import com.example.kplayerdemo.domain.model.Song
 import com.example.kplayerdemo.domain.repository.SongRepository
+import com.example.kplayerdemo.util.DummySongUtil
 
 class FakeSongRepository : SongRepository {
 
     private val songs = mutableListOf<Song>()
 
     init {
-        ('a'..'z').forEachIndexed { index, c ->
-            val song = Song(
-                trackId = index,
-                trackName = c.toString(),
-                collectionId = index,
-                collectionName = c.toString(),
-                artworkUrl30 = c.toString(),
-                artworkUrl60 = c.toString(),
-                artworkUrl100 = c.toString()
-                )
+        val initSongs = DummySongUtil.prepareDummyData()
+        initSongs.forEach { song ->
             songs.add(song)
         }
     }
@@ -27,18 +20,16 @@ class FakeSongRepository : SongRepository {
     }
 
     override suspend fun upsertSongs(songs: List<Song>) {
-        TODO("Not yet implemented")
+        songs.forEach { song ->
+            this.songs.add(song)
+        }
     }
 
     override suspend fun getAllSongs(): List<Song> {
-        TODO("Not yet implemented")
+        return songs
     }
 
     override suspend fun deleteAllSongs() {
-        TODO("Not yet implemented")
-    }
-
-    fun getFakeSongs(): List<Song> {
-        return songs
+        songs.clear()
     }
 }
