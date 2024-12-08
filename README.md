@@ -55,7 +55,7 @@ ui
 ```
 ### Dependency Injection
 [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android) is used for dependency management of this project.
-### More Technical Used
+### More Techniques Used
 - **Coroutine and StateFlow** for mapping, filter and sorting
 - **Jetpack Compose** for UI
 - **JUnit4** for unit test
