@@ -96,7 +96,19 @@ fun SongListScreen(
                             .background(Color.Black)
                             .padding(horizontal = 20.dp)
                     )
+                } else if (state.error.isNotBlank()) {
+                    Text(
+                        text = state.error,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.bodyMedium.merge(),
+                        color = Color.White,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.Black)
+                            .padding(horizontal = 20.dp)
+                    )
                 }
+
                 OutlinedTextField(
                     value = state.queryString,
                     onValueChange = { username -> viewModel.updateQueryString(username) },
@@ -130,9 +142,6 @@ fun SongListScreen(
                         .align(Alignment.Center)
                 )
             }
-
-            if (state.error.isNotBlank())
-                Toast.makeText(LocalContext.current, state.error, LENGTH_SHORT).show()
         }
     }
 }
