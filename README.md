@@ -3,8 +3,8 @@
 A song list demo based on Kotlin and Jetpack Compose. Features include:
 - Display a song list from [iTunes Search API](https://itunes.apple.com/search?term=Talyor+Swift&limit=200&media=music).
 - Accept user input as keyword for searching by song name and album name.
-- Provide 2 sorting options: by song name and by album name, in ascending order
-- **Offline mode**. When the App cannot reach iTunes server, a cached list will be loaded from the loacal database.
+- Provide 2 sorting options: by song name and by album name, in ascending order.
+- **Offline mode**. When the App cannot reach iTunes server, a cached list will be loaded from the local database.
 - **Refresh** the list by clicking the refresh button on the top right corner.
 
 ## Quick Start
@@ -57,6 +57,7 @@ ui
 ### Dependency Injection
 [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android) is used for dependency management of this project.
 ### More Hints
-- **Coroutine and StateFlow** for mapping, filter and sorting
-- **Jetpack Compose** for UI
-- **JUnit4** for unit test
+- **Coroutine and StateFlow** for mapping, filter and sorting.
+- **Jetpack Compose** for UI.
+- **ConnectivityManager** to monitor internet connection.
+- **JUnit4** for unit test.
