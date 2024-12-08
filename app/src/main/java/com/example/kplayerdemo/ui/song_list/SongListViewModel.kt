@@ -25,18 +25,6 @@ class SongListViewModel @Inject constructor(
     private val _state = MutableStateFlow(SongListState())
     val state = _state.asStateFlow()
 
-    fun updateQueryString(input: String) {
-        _state.update {
-            it.copy(queryString = input)
-        }
-    }
-
-    fun updateSortingType(option: SortingType) {
-        _state.update {
-            it.copy(selectedSortingType = option)
-        }
-    }
-
     init {
         getSongs()
     }
@@ -71,5 +59,21 @@ class SongListViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun updateQueryString(input: String) {
+        _state.update {
+            it.copy(queryString = input)
+        }
+    }
+
+    fun updateSortingType(option: SortingType) {
+        _state.update {
+            it.copy(selectedSortingType = option)
+        }
+    }
+
+    fun refreshSongList() {
+        getSongs()
     }
 }
