@@ -5,12 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.kplayerdemo.domain.use_case.GetAllSongsUseCase
 import com.example.kplayerdemo.domain.use_case.SearchSongsUseCase
 import com.example.kplayerdemo.domain.use_case.UpdateSongsUseCase
+import com.example.kplayerdemo.util.ConnectivityObserver
 import com.example.kplayerdemo.util.Constants
 import com.example.kplayerdemo.util.Resource
 import com.example.kplayerdemo.util.SortingType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +22,8 @@ import javax.inject.Inject
 class SongListViewModel @Inject constructor(
     private val searchSongsUseCase: SearchSongsUseCase,
     private val updateSongsUseCase: UpdateSongsUseCase,
-    private val getAllSongsUseCase: GetAllSongsUseCase
+    private val getAllSongsUseCase: GetAllSongsUseCase,
+    private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SongListState())
@@ -61,6 +65,7 @@ class SongListViewModel @Inject constructor(
         }
     }
 
+
     fun updateQueryString(input: String) {
         _state.update {
             it.copy(queryString = input)
@@ -76,4 +81,12 @@ class SongListViewModel @Inject constructor(
     fun refreshSongList() {
         getSongs()
     }
+
+    val isConnected = connectivityObserver
+        .isConnected
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000L),
+            false
+        )
 }
