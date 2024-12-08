@@ -5,6 +5,7 @@ A song list demo based on Kotlin and Jetpack Compose. Features include:
 - Accept user input as keyword for searching by song name and album name.
 - Provide 2 sorting options: by song name and by album name, in ascending order
 - **Offline mode**. When the App cannot reach iTunes server, a cached list will be loaded from the loacal database.
+- **Refresh** the list by clicking the refresh button on the top right corner.
 
 ## Quick Start
 The demo requires at minimum Java 8+ or Android API 29+ (Android 10.0+).
@@ -55,7 +56,7 @@ ui
 ```
 ### Dependency Injection
 [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android) is used for dependency management of this project.
-### More Techniques Used
+### More Hints
 - **Coroutine and StateFlow** for mapping, filter and sorting
 - **Jetpack Compose** for UI
 - **JUnit4** for unit test
