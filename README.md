@@ -1,6 +1,6 @@
 # KPlayerDemo
 
-A song list demo based on Kotlin and Jetpack Compose. Features include:
+A song list demo for Android based on Kotlin and Jetpack Compose. Features include:
 - Display a song list from [iTunes Search API](https://itunes.apple.com/search?term=Talyor+Swift&limit=200&media=music).
 - Accept user input as keyword for searching by song name and album name.
 - Provide 2 sorting options: by song name and by album name, in ascending order.
