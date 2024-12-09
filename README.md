@@ -56,8 +56,12 @@ ui
 ```
 ### Dependency Injection
 [Dagger-Hilt](https://developer.android.com/training/dependency-injection/hilt-android) is used for dependency management of this project.
-### More Hints
+### More Techs Used
 - **Coroutine and StateFlow** for mapping, filter and sorting.
 - **Jetpack Compose** for UI.
 - **ConnectivityManager** to monitor internet connection.
 - **JUnit4** for unit test.
+## Future Works
+- Integrate media player to play song preview.
+- Playlist. 
+- Allow user to change search terms to make further use of iTunes Search API.
